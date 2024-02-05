@@ -15,4 +15,5 @@ export interface Iclinic {
   clinicFee: Number;
   clinicRating: Number;
   prevServices: Iappointment[];
+  role: 'clinic' | 'doctor' | 'patient';
 }

@@ -8,4 +8,6 @@ export interface Idoctor {
   profilePic: string;
   docLicense: string;
   Verification:{ adharNumber: String } | { passportNumber: String } | { panCard: String };
+  role: 'clinic' | 'doctor' | 'patient';
+
 }

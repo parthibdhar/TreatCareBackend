@@ -24,6 +24,8 @@ export interface IPatient {
   // How to Link wit Diff Schema
   appointment?: Iappointment[{}]; 
   date: Date;
+  role: 'clinic' | 'doctor' | 'patient';
+
 }
 
 
