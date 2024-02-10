@@ -9,6 +9,28 @@ AWS.config.update({
 });
 
 const dynamoDbClient = new AWS.DynamoDB.DocumentClient();
-console.log(`dynamoDb Connectedt: ${dynamoDbClient}`);
+console.log(`dynamoDb Connected : ${dynamoDbClient}`);
+
+export default dynamoDbClient;
 
 
+/*
+1. primary key is made of sort key + partition key
+2. The partition key determines the partition (or segment) in which an item is stored,
+   The sort key determines the sort order of items within that partition
+  
+   PK -> unique  
+    Doctor -> DOC#yt3y598y2525
+    Patient -> PAT#9u395u306u52t
+    Clinic -> CLNC#9638y28528
+
+  SK -> 
+    1.
+    2. PAT#{patID}
+
+
+
+    1. get all doc of a clinic
+    2. get doc by id
+    3. get all the patient of doc
+*/
