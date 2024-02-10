@@ -16,18 +16,18 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 
+// Other Routes
+app.use('/api/auth', authRouter);
+app.use('/api/category', categoryRouter);
+app.use('/api/clinic', clinicRouter);
+app.use('/api/doctor', doctorRouter);
+app.use('/api/patient', patientRouter);
+
 // Main Route
 app.get('/', (req, res) => {
   res.json({
     message: 'Server is Running',
-  });
-
-  // Other Routes
-  app.use('/api/auth', authRouter);
-  app.use('/api/category', categoryRouter);
-  app.use('/api/clinic', clinicRouter);
-  app.use('/api/doctor', doctorRouter);
-  app.use('/api/patient', patientRouter);
+  });  
 });
 
 
