@@ -9,8 +9,8 @@ export interface IPatient {
   savedAddress?: {
     address: string;
     landmark: string;
-    pincode: string;
     city: string;
+    pincode: string;
     state: string;
   };
   gender: 'male' | 'female' | 'other';
