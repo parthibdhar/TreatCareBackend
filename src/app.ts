@@ -9,6 +9,7 @@ import patientRouter from './Routes/patientRoutes';
 const session = require('express-session');
 
 const passport = require('passport');
+// require('../src/Middleware/ThirdPartyAuth/LocalAuth')(passport);
 
 require('dotenv').config();
 
