@@ -17,6 +17,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
+
 app.use(session({
   secret: process.env.SESSION_SECRET, // replace with a strong secret
   resave: false,
@@ -25,9 +26,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
-// Other Routes
 app.use('/api/auth', authRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/clinic', clinicRouter);
