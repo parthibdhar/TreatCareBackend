@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import authRouter from './Routes/authRoutes';
@@ -38,6 +38,11 @@ app.get('/', (req, res) => {
     message: 'Server is Running',
   });
 });
+
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  res.status(err.status || 500);
+  res.end();
+})
 
 
 export default app;

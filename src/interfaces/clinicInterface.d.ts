@@ -1,6 +1,6 @@
 export interface Iclinic {
   clinicId: string;
-  doctors: Idoctor[];
+  // doctors: IDoctor[];
   location:{
     gmapLocation:[Number, Number];
     state:String;

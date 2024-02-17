@@ -7,7 +7,7 @@
 5. Add data in database.
 */
 import express from 'express';
-import { Idoctor } from '../interfaces/doctorInterface';
+import { IDoctor } from '../interfaces/doctorInterface';
 import { IPatient } from '../interfaces/patientInterface';
 import { Iclinic } from '../interfaces/clinicInterface';
 import { requireSignedin } from '../Middleware/protectedMiddleWare/requireSignedin';
@@ -52,22 +52,22 @@ authRouter.get('/protected', requireSignedin, (req: any, res: any) => {
 // Logout
 authRouter.get('/logout', (req: any, res: any, next: any) => {
   req.logout((err: any) => {
-   try {
-    if(err) {
-       res.send({
-        success: false,
-        err
+    try {
+      if (err) {
+        res.send({
+          success: false,
+          err
+        });
+      }
+      req.session.destroy();
+      res.status(304).send({
+        success: true
       });
+      return
+    } catch (error) {
+      console.log(error);
+
     }
-    req.session.destroy();
-    res.status(304).send({
-      success: true
-    });
-    return
-   } catch (error) {
-    console.log(error);
-    
-   }
   });
 
 });
