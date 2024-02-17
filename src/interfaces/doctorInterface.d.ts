@@ -1,13 +1,17 @@
-export interface Idoctor {
-  doctorId: string;
-  docName: string;
-  schedule:{};
+export interface IDoctor {
+  doctorId?: string;
+  name: string;
   specialization: string;
-  experience: Number;
-  fee: Number;
-  profilePic: string;
-  docLicense: string;
-  Verification:{ adharNumber: String } | { passportNumber: String } | { panCard: String };
-  role: 'clinic' | 'doctor' | 'patient';
-
+  licenseNumber: string;
+  education: string;
+  phoneNumber: string;
+  emailId: string;
+  clinicAffiliation?: { clinicId: string }
+  experience: number;
+  fee: number;
+  profilePic?: string;
+  verification?: {
+    isVerified: boolean;
+    adharNumber?: String;
+  };
 }
