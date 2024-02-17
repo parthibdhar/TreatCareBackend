@@ -16,12 +16,35 @@ const passport = require('passport');
 
 const authRouter = express.Router();
 
+
+
+
+
+
+
 // ************ PUBLIC ROUTES ************ //
 
 authRouter.get('/', (req, res) => {
   res.send('<a href="/api/auth/google">Authenticate with Google</a>');
 });
 
+
+// Local Authentication
+authRouter.post('/login', passport.authenticate('local', {
+  successRedirect: '/protected',
+  failureRedirect: '/',
+  // failureFlash: true
+}), (err) => {
+  try {
+    if(err) {
+      console.log(err);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// google authentication
 authRouter.get('/google',
   passport.authenticate('google', { scope: ['email', 'profile'] }),
 
