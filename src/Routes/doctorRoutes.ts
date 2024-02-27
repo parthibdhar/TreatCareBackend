@@ -10,10 +10,10 @@ import { log } from 'console';
 import getAllDoctors from '../Controllers/doctor/getAllDoctors';
 const doctorRouter = express.Router();
 
-// ************ PUBLIC ROUTES ************ //
+                                // ************ PUBLIC ROUTES ************ //
 
 
-
+  // create New Doctor
 doctorRouter.post('/create-new', async (req: Request, res: Response) => {
   try {
     const data: IDoctor = req.body
@@ -29,6 +29,7 @@ doctorRouter.post('/create-new', async (req: Request, res: Response) => {
 })
 
 
+  // get all doctors
 doctorRouter.get('/', async (req: Request, res: any) => {
   try {
     const result = await getAllDoctors()
@@ -67,6 +68,7 @@ doctorRouter.delete('/delete/:docId', async (req: Request, res: Response) => {
   }
 })
 
+  // update doctor
 doctorRouter.put('/update/:docId', async (req: Request, res: Response) => {
   try {
     const docId: string = req.params.docId
@@ -88,6 +90,8 @@ doctorRouter.put('/update/:docId', async (req: Request, res: Response) => {
   }
 })
 
+
+  // get doctor by id
 doctorRouter.get('/get-doctor/:id', async (req: Request, res: Response) => {
   try {
     const docId: string = req.params.id
