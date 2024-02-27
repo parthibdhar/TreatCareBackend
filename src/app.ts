@@ -27,11 +27,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api/auth', authRouter);
-app.use('/api/category', categoryRouter);
-app.use('/api/clinic', clinicRouter);
-app.use('/api/doctor', doctorRouter);
-app.use('/api/patient', patientRouter);
+app.use('/auth', authRouter);
+app.use('/category', categoryRouter);
+app.use('/clinic', clinicRouter);
+app.use('/doctor', doctorRouter);
+app.use('/patient', patientRouter);
 
 // Main Route
 app.get('/', (req, res) => {

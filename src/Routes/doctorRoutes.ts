@@ -6,29 +6,47 @@ import getDoctorbyId from '../Controllers/doctor/getDoctorById';
 import getDoctorbySpecialization from '../Controllers/doctor/getDocbySpecialization';
 import deleteDoc from '../Controllers/doctor/deleteDoc';
 import updateDoc from '../Controllers/doctor/updateDoc';
+import { log } from 'console';
+import getAllDoctors from '../Controllers/doctor/getAllDoctors';
 const doctorRouter = express.Router();
 
 // ************ PUBLIC ROUTES ************ //
 
-doctorRouter.get('/', (req: Request, res: Response) => {
-  res.send('Hello doctorRouter');
-});
+
 
 doctorRouter.post('/create-new', async (req: Request, res: Response) => {
   try {
     const data: IDoctor = req.body
     const result = await createNewDoctor(data)
     if (result.success) {
-      res.status(200).send('Doctor created successfully')
+      res.status(200).send(result.message)
     } else {
-      res.status(500).send('There was some error')
+      res.status(500).send(result.message)
     }
   } catch (error) {
     console.log(error)
   }
 })
 
-doctorRouter.get('/delete/:docId', async (req: Request, res: Response) => {
+
+doctorRouter.get('/', async (req: Request, res: any) => {
+  try {
+    const result = await getAllDoctors()
+    if (result.success) {
+      console.log(result)
+     
+      res.status(200).send(
+          result.data
+      )
+    } else {
+      res.status(500).send(result.message)
+    }
+  } catch (error) {
+    console.log(error)
+  }
+});
+
+doctorRouter.delete('/delete/:docId', async (req: Request, res: Response) => {
   try {
     const docId: string = req.params.docId
     const specialization = req.headers['specialization']
@@ -49,18 +67,18 @@ doctorRouter.get('/delete/:docId', async (req: Request, res: Response) => {
   }
 })
 
-doctorRouter.post('/update/:docId', async (req: Request, res: Response) => {
+doctorRouter.put('/update/:docId', async (req: Request, res: Response) => {
   try {
     const docId: string = req.params.docId
     const specialization = req.headers['specialization']
     const updateObj = req.body
     if (docId && specialization) {
       const result = await updateDoc(docId, specialization as string, updateObj)
-      if (result.success) {
+      if (result?.success) {
         res.status(200).json(result.message)
       }
       else {
-        res.status(500).send(result.message)
+        res.status(500).send(result?.message)
       }
     } else {
       res.status(500).send('No header found')

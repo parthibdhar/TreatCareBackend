@@ -1,5 +1,5 @@
 export interface IDoctor {
-  doctorId?: string;
+  Id?: string;
   name: string;
   specialization: string;
   licenseNumber: string;

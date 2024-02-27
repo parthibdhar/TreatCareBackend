@@ -1,5 +1,5 @@
 export interface IPatient {
-  patientId: string;
+  Id: string;
   name: string;
   phoneNumber: Number;
   currentLocation: {

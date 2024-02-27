@@ -1,5 +1,6 @@
 import dynamoDbClient from "../../database/dynamoDbConnection";
 import { IDoctor } from "../../interfaces/doctorInterface";
+import { error, log } from 'console';
 
 function formatObjectAsExpressionAttributeNames(obj: any) {
     const expressions = [];
@@ -47,17 +48,34 @@ export default async function updateDoc(docId: string, specialization: string, u
         Key: { PK: `DOC#${docId}`, SK: `SPEC#${specialization}` },
         UpdateExpression: `SET ${UpdateExpression}`,
         ExpressionAttributeNames: attributeName,
-        ExpressionAttributeValues: attributValue
+        ExpressionAttributeValues: attributValue,
+        ReturnValuesOnConditionCheckFailure: 'ALL_OLD',
+        ReturnValues: 'UPDATED_NEW',
+        ConditionExpression: 'attribute_exists(PK) AND attribute_exists(SK)'
     };
 
     console.log(params);
     
     try {
-        await  dynamoDbClient.update(params).promise()
-        return {
-            success: true,
-            message: 'Updated successfully'
+        dynamoDbClient.update(params, (err, data) => {
+        console.log(`hi CallBack`);
+        if (err) {
+            if (err.code === 'ConditionalCheckFailedException') {
+                console.error('Update failed due to condition check failure:', err.message);
+                // Handle condition check failure gracefully
+            } else {
+                console.error('Unable to update item. Error JSON:', JSON.stringify(err, null, 2));
+                // Handle other errors
+            }
+        } else {
+            console.log('UpdateItem succeeded:', JSON.stringify(data, null, 2));
         }
+       });
+    //    return {
+    //        success: true,
+    //        message: res,
+    //    }
+        
     } catch (error) {
         return {
             success: false,

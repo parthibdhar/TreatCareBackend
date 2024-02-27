@@ -24,7 +24,7 @@ export default async function getDoctorbySpecialization(specialization: string) 
         if (queryPromise) {
             if (queryPromise.Count as number === 0) {
                 return {
-                    success: true,
+                    success: false,
                     message: 'Not found',
                 }
             } else if (queryPromise.Count as number > 0) {
