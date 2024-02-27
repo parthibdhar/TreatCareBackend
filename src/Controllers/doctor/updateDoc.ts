@@ -1,6 +1,6 @@
 import dynamoDbClient from "../../database/dynamoDbConnection";
 import { IDoctor } from "../../interfaces/doctorInterface";
-import { error, log } from 'console';
+
 
 function formatObjectAsExpressionAttributeNames(obj: any) {
     const expressions = [];
@@ -55,31 +55,27 @@ export default async function updateDoc(docId: string, specialization: string, u
     };
 
     console.log(params);
-    
+
     try {
-        dynamoDbClient.update(params, (err, data) => {
-        console.log(`hi CallBack`);
-        if (err) {
-            if (err.code === 'ConditionalCheckFailedException') {
-                console.error('Update failed due to condition check failure:', err.message);
-                // Handle condition check failure gracefully
-            } else {
-                console.error('Unable to update item. Error JSON:', JSON.stringify(err, null, 2));
-                // Handle other errors
-            }
-        } else {
-            console.log('UpdateItem succeeded:', JSON.stringify(data, null, 2));
-        }
-       });
-    //    return {
-    //        success: true,
-    //        message: res,
-    //    }
-        
-    } catch (error) {
+        const data = await dynamoDbClient.update(params).promise();
+        console.log('UpdateItem succeeded:', JSON.stringify(data, null, 2));
         return {
-            success: false,
-            message: 'There was an error'
+            success: true,
+            message: 'Doctor updated successfully'
+        };
+    } catch (error: any) {
+        console.error('Error updating doctor:', error);
+        if (error.code === 'ConditionalCheckFailedException') {
+            return {
+                success: false,
+                message: `Update failed!!! unknown or invalid specialization: ${specialization}`
+            };
+        } else {
+            return {
+                success: false,
+                message: `Unable to update item. Error: ${error}`
+            };
         }
     }
-}
+    }
+
