@@ -45,13 +45,13 @@ export default async function updatePat(patId: string, updateObj: Partial<IPatie
 
     const params = {
         TableName: process.env.TABLE_NAME as string,
-        Key: { PK: `pat#${patId}`, SK: `PAT#${patId}`},
+        Key: { PK: `PAT#${patId}`, SK: `PAT#${patId}`},
         UpdateExpression: `SET ${UpdateExpression}`,
         ExpressionAttributeNames: attributeName,
         ExpressionAttributeValues: attributValue,
         ReturnValuesOnConditionCheckFailure: 'ALL_OLD',
         ReturnValues: 'UPDATED_NEW',
-        // ConditionExpression: 'attribute_exists(PK)  AND attribute_exists(SK)'
+        ConditionExpression: 'attribute_exists(PK)  AND attribute_exists(SK)'
     };
 
     console.log(params);

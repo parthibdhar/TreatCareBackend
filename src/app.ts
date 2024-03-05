@@ -6,8 +6,10 @@ import categoryRouter from './Routes/categoryRoutes';
 import clinicRouter from './Routes/clinicRoutes';
 import doctorRouter from './Routes/doctorRoutes';
 import patientRouter from './Routes/patientRoutes';
+
 const session = require('express-session');
 
+const db = require('./database/dynamoDbConnection')
 const passport = require('passport');
 // require('../src/Middleware/ThirdPartyAuth/LocalAuth')(passport);
 
@@ -34,10 +36,17 @@ app.use('/doctor', doctorRouter);
 app.use('/patient', patientRouter);
 
 // Main Route
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Server is Running',
-  });
+app.get('/', async (req, res) => {
+  try {
+    const result = await db.query('SELECT * FROM users');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+  // res.json({
+  //   message: 'Server is Running',
+  // });
 });
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

@@ -1,34 +1,25 @@
-import AWS from 'aws-sdk';
-import dotenv from 'dotenv';
-dotenv.config();
+const { Pool } = require('pg');
 
-AWS.config.update({
-  region: process.env.AWS_DEFAULT_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+const conn = process.env.connectionString
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: Number(process.env.DB_PORT),
 });
 
-const dynamoDbClient = new AWS.DynamoDB.DocumentClient(); 
-export default dynamoDbClient;
+pool.connect((err: any, client: any, done: any) => {
+  if (err) {
+    console.error('Error connecting to the database:', err);
+  } else {
+    console.log('Connected to the database');
+    done(); // Release the client back to the pool
+  }
+});
+
+module.exports = {
+  query: (text: string, params: any) => pool.query(text, params)
+};
 
 
-/*
-1. primary key is made of sort key + partition key
-2. The partition key determines the partition (or segment) in which an item is stored,
-   The sort key determines the sort order of items within that partition
-  
-   PK -> unique  
-    Doctor -> DOC#yt3y598y2525
-    Patient -> PAT#9u395u306u52t
-    Clinic -> CLNC#9638y28528
-
-  SK -> 
-    1.
-    2. PAT#{patID}
-
-
-
-    1. get all doc of a clinic
-    2. get doc by id
-    3. get all the patient of doc
-*/
